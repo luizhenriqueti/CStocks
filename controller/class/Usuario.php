@@ -60,9 +60,10 @@ class Usuario{
 
 
 	//metodo construtor
-	public function __construct($login = "", $password=""){
+	public function __construct($login = "", $password="", $email=""){
 		$this->setLogin($login);
 		$this->setSenha($password);
+		$this->setEmail($email);
 	}
 
 
@@ -161,9 +162,10 @@ class Usuario{
 
 	public function insert(){
 		$sql = new Sql();
-		$results = $sql->select("CALL sp_usuarios_insert(:LOGIN, :PASSWORD)",array(
-			":LOGIN" => $this->getlogin(),
-			":PASSWORD" => $this->getsenha()
+		$results = $sql->select("INSERT INTO usuarios (login, senha, email) VALUES (:LOGIN, :PASSWORD, :EMAIL)",array(
+			":LOGIN" => $this->getLogin(),
+            ":PASSWORD" => $this->getSenha(),
+            ":EMAIL" => $this->getEmail()
 		));
 
 		if (count($results) > 0) {
