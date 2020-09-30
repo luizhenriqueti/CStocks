@@ -89,7 +89,7 @@ class Usuario{
 		$this->setSenha($password);
 
 		$sql = new Sql();
-		$sql->query("UPDATE tb_usuarios SET login = :LOGIN, senha = :PASSWORD WHERE id = :ID", array(
+		$sql->query("UPDATE usuarios SET login = :LOGIN, senha = :PASSWORD WHERE id = :ID", array(
 			":LOGIN" => $this->getLogin(),
 			":PASSWORD" => $this->getSenha(),
 			":ID" => $this->getId()
@@ -114,17 +114,17 @@ class Usuario{
 	}
 
 
-	//pega tudo da tabela tb_usuarios e orderna pelo login
+	//pega tudo da tabela usuarios e orderna pelo login
 	public static function getList(){
 		$sql = new Sql();
-		return $sql->select("SELECT * FROM tb_usuarios ORDER BY login");
+		return $sql->select("SELECT * FROM usuarios ORDER BY login");
 	}
 
 
 	//pesquisa pelo nome 
 	public static function search($login){
 		$sql = new Sql();
-		return $sql->select("SELECT * FROM tb_usuarios WHERE login LIKE :SEARCH ORDER BY login", array(
+		return $sql->select("SELECT * FROM usuarios WHERE login LIKE :SEARCH ORDER BY login", array(
 			"SEARCH" =>  "%".$login."%"
 		));
 	}
@@ -134,7 +134,7 @@ class Usuario{
 	public function login($login, $password){
 
 		$sql = new Sql();
-		$results = $sql->select("SELECT * FROM tb_usuarios WHERE login = :LOGIN AND senha = :PASSWORD",array(
+		$results = $sql->select("SELECT * FROM usuarios WHERE login = :LOGIN AND senha = :PASSWORD",array(
 			":LOGIN" => $login,
 			":PASSWORD" => $password
 		));
@@ -160,6 +160,7 @@ class Usuario{
 
 	}
 
+    //insere registros na tabela usuarios
 	public function insert(){
 		$sql = new Sql();
 		$results = $sql->select("INSERT INTO usuarios (login, senha, email) VALUES (:LOGIN, :PASSWORD, :EMAIL)",array(
