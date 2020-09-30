@@ -84,16 +84,30 @@ class Usuario{
 
 
 	//atualiza um usuario existente
-	public function update($login, $senha){
-		$this->setLogin($login);
-		$this->setSenha($password);
+	public function update($arr){
+        $usuario = new Usuario();
+        $sql = new Sql();
 
-		$sql = new Sql();
-		$sql->query("UPDATE usuarios SET login = :LOGIN, senha = :PASSWORD WHERE id = :ID", array(
-			":LOGIN" => $this->getLogin(),
-			":PASSWORD" => $this->getSenha(),
-			":ID" => $this->getId()
-		));
+        $result = $usuario->buscaPorId($arr['id']);
+      
+       foreach ($arr as $key => $value) {
+           if ($value == "" || $value == null) {            
+                $value = $result[0][$key];
+                $arr[$key] = $value;
+           }
+        }
+    
+       
+      
+	
+		$sql->query("UPDATE usuarios SET login = :LOGIN, senha = :PASSWORD, email = :EMAIL WHERE id = :ID", array(
+		 	":LOGIN" => $arr['login'],
+		 	":PASSWORD" => $arr['senha'],
+		 	":EMAIL" => $arr['email'],
+		 	":ID" => $arr['id']
+        ));
+        
+   
 
 
 	}
@@ -111,6 +125,16 @@ class Usuario{
 			$this->setData($results[0])	;
 
 		}
+    }
+    
+    //busca pelo id
+	public function buscaPorId($id){
+		$sql = new Sql();
+		$results = $sql->select("SELECT * FROM usuarios WHERE id = :ID",array(
+			":ID" => $id
+		));
+
+		return $results;
 	}
 
 
@@ -156,8 +180,8 @@ class Usuario{
 		$this->setId($data['id']);
 		$this->setLogin($data['login']);
 		$this->setSenha($data['senha']);
-		$this->setEmail($data['email']);
-
+        $this->setEmail($data['email']);
+        
 	}
 
     //insere registros na tabela usuarios

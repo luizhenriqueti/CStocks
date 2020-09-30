@@ -2,11 +2,17 @@
 require_once("../config.php");
 
 $usuario = new Usuario();
-// $usuario = new Usuario("Luiz","123456","mail@mail.com");
-// $usuario->insert();
-$usuario->loadbyid(2);
 
-echo $usuario;
+$arr = [
+    "id"=> 2,
+    "login" => "teste update",
+    "senha" => "", 
+    "email" => "novomail@mail.com"
+];
+
+$usuario->update($arr);
+
+
 
 
 
